@@ -30,7 +30,7 @@ jobs:
       run: flutter build ios --release
     
     - name: Upload iOS build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ios-build
         path: build/ios/iphoneos/Runner.app
@@ -46,7 +46,7 @@ jobs:
     
     - name: Upload IPA artifact
       if: success()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ios-ipa
         path: build/ios/iphoneos/Runner.ipa

@@ -36,7 +36,7 @@ jobs:
       run: flutter build appbundle --release
     
     - name: Upload Android artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: android-build
         path: |
@@ -63,7 +63,7 @@ jobs:
       run: flutter build web --release
     
     - name: Upload Web artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: web-build
         path: build/web
@@ -88,7 +88,7 @@ jobs:
       run: flutter build windows --release
     
     - name: Upload Windows artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: windows-build
         path: build/windows/runner/Release
@@ -121,7 +121,7 @@ jobs:
         rm -rf Payload
     
     - name: Upload iOS artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ios-build
         path: build/ios/iphoneos/Runner.ipa
