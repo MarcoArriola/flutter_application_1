@@ -36,7 +36,9 @@ class _SplashScreenState extends State<SplashScreen> {
         // Usuario recurrente: navegar a WebViewScreen
         if (mounted) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => WebViewScreen(url: userUrl)),
+            MaterialPageRoute(
+              builder: (context) => WebViewScreen(url: userUrl),
+            ),
           );
         }
       } else {
