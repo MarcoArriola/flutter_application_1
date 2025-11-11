@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'screens/splash_screen.dart';
 
 void main() {
-  runApp(const HOlaMundo());
+  runApp(const FuelBarApp());
 }
 
-class HOlaMundo extends StatelessWidget {
-  const HOlaMundo({super.key});
+class FuelBarApp extends StatelessWidget {
+  const FuelBarApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home:Text("Hola Mundo"));
+    return MaterialApp(
+      title: 'FuelBar',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
+    );
   }
 }
