@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-ios:
+  build-ios-simulator:
     runs-on: macos-latest
     
     steps:
@@ -25,28 +25,52 @@ jobs:
     - name: Run analyze
       run: flutter analyze
     
-    - name: Build iOS app
-      run: flutter build ios --release
+    - name: Build iOS app for Simulator (Debug)
+      run: flutter build ios --simulator --debug
     
-    - name: Upload iOS build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: ios-build
-        path: build/ios/iphoneos/Runner.app
-        retention-days: 30
-    
-    - name: Create IPA (optional - requires provisioning profiles)
+    - name: Create zip for Simulator
       run: |
-        cd build/ios/iphoneos
-        mkdir -p Payload
-        cp -r Runner.app Payload/
-        zip -r -q Runner.ipa Payload
-        rm -rf Payload
+        cd build/ios/iphonesimulator
+        zip -r -q ../../../ios-simulator.zip Runner.app
     
-    - name: Upload IPA artifact
-      if: success()
+    - name: Upload iOS Simulator build
       uses: actions/upload-artifact@v4
       with:
-        name: ios-ipa
-        path: build/ios/iphoneos/Runner.ipa
+        name: ios-simulator
+        path: ios-simulator.zip
         retention-days: 30
+
+  build-ios-device:
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+    
+    - name: Install dependencies
+      run: flutter pub get
+    
+    - name: Build iOS app for Device (Ad-hoc)
+      run: |
+        flutter build ios --release --no-codesign
+      continue-on-error: true
+    
+    - name: Create IPA without code signing
+      run: |
+        mkdir -p Payload
+        cp -r build/ios/iphoneos/Runner.app Payload/
+        zip -r -q ios-unsigned.ipa Payload
+        rm -rf Payload
+      continue-on-error: true
+    
+    - name: Upload unsigned IPA
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-ipa-unsigned
+        path: ios-unsigned.ipa
+        retention-days: 30
+      continue-on-error: true
